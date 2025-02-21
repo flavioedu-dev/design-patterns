@@ -17,6 +17,9 @@ public class Operation
 
     public string MakePayment()
     {
-        return (PaymentMethod ?? throw new InvalidOperationException("Método de pagamento não definido.")).Process();
+        if (PaymentMethod is null)
+            throw new InvalidOperationException("Método de pagamento não definido.");
+
+        return PaymentMethod.Process();
     }
 }
