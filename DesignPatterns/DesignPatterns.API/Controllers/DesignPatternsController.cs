@@ -19,12 +19,10 @@ public class DesignPatternsController : ControllerBase
     }
 
     [HttpPost("AbstractFactory")]
-    public IActionResult AbstractFactory(string? database)
+    public IActionResult AbstractFactory(string database)
     {
-        DAOFactory dAOFactory = DAOFactory.SetFactory(database);
+        UserDAO? userDAO = DAOFactory.SetFactory(database)?.CreateUserDAO;
 
-        UserDAO userDAO = dAOFactory.CreateUserDAO;
-
-        return Ok(userDAO.Get());
+        return Ok(new { Get = userDAO?.Get(), Save = userDAO?.Save() });
     }
 }
